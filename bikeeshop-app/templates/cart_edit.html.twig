@@ -1,0 +1,38 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Modification client{% endblock %}
+
+{% block main %}
+
+    <div class="container section_gap">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Modifier votre compte</h3>
+                    {{ form_start(form, { 'attr': {'class': 'row contact_form'} }) }}
+                    <div class="col-md-6 form-group p_star">
+                        {{ form_widget(form.phone, { 'attr': {'class': 'form-control', 'placeholder': form.phone.vars.label, 'value': client.phone} }) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                        {{ form_widget(form.address, { 'attr': {'class': 'form-control', 'placeholder': form.address.vars.label, 'value': client.address} }) }}
+                        {{ form_errors(form.address) }}
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                        {{ form_widget(form.zipcode, { 'attr': {'class': 'form-control', 'placeholder': form.zipcode.vars.label, 'value': client.zipcode} }) }}
+                        {{ form_errors(form.zipcode) }}
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                        {{ form_widget(form.city, { 'attr': {'class': 'form-control', 'placeholder': form.city.vars.label, 'value': client.city} }) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+                    <div class="col-md-6 offset-md-5">
+                        <button type="submit" value="submit" class="primary-btn">Validation</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

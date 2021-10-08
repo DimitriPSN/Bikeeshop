@@ -1,0 +1,148 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Panier{% endblock %}
+
+{% block main %}
+    <section class="cart_area">
+        <div class="container">
+            {% for flash_type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ flash_type }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set totalArticle = 0 %}
+                        {% set totalArticles = 0 %}
+                        {% for article in articles %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <a href="{{ path('article-details', {'idArticle': article.id}) }}">
+                                            <img style="max-height: 80px;" src="{{ asset('img/product/'~article.visual) }}" alt="{{ article.name }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>
+                                            <a href="{{ path('article-details', {'idArticle': article.id}) }}">
+                                            {{ article.name }}
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>{{ article.price|localizedcurrency('EUR') }}</h5>
+                            </td>
+                            <td>
+                                <form method="get" action="{{ path('cart_update', {'idArticle': article.id}) }}">
+                                <div class="product_count">
+                                    <input type="number" min="0" max="{{ article.stock }}" name="qty{{ article.id }}" id="qty{{ article.id }}" value="{{ qte[article.id] }}" title="Quantité:" class="input-text qty">
+                                    <button onclick="var result = document.getElementById('qty{{ article.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty < {{ article.stock }} ) result.value++; this.form.submit();" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button onclick="var result = document.getElementById('qty{{ article.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;this.form.submit();" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                </div>
+                                    <a href="{{ path('cart_delete', {'idArticle': article.id}) }}"><span class="lnr lnr-trash" style="padding-left: 5px"></span></a>
+                                </form>
+                            </td>
+                            <td>
+                                <h5>
+                                    {% set totalArticle = article.price*qte[article.id] %}
+                                    {% set totalArticles = totalArticles+totalArticle %}
+                                    {{ totalArticle|localizedcurrency('EUR') }}
+                                </h5>
+                            </td>
+                        </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Votre panier est vide !</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Sous-total</h5>
+                            </td>
+                            <td>
+                                <h5>
+                                    {{ totalArticles|localizedcurrency('EUR') }}
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>TVA ({{ (tva-1)*100 }}%)</h5>
+                            </td>
+                            <td>
+                                <h5>
+                                    {% set TVA = totalArticles*(tva-1) %}
+                                    {{ TVA|localizedcurrency('EUR') }}
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Total</h5>
+                            </td>
+                            <td>
+                                <h5>
+                                    {% set totalTTC = totalArticles*tva %}
+                                    {{ totalTTC|localizedcurrency('EUR') }}
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr class="shipping_area">
+
+                        </tr>
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{{ path('store') }}">Continuer mes achats</a>
+                                    <a class="primary-btn" href="{{ path('cart_summary') }}">Procéder au paiement</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Connexion{% endblock %}
+
+{% block main %}
+    <section class="login_box_area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="login_box_img">
+                        <img class="img-fluid" src="img/login.jpg" alt="">
+                        <div class="hover">
+                            <h4>Nouveau sur notre site ?</h4>
+                            <p>N'attendez pu...</p>
+                            <a class="primary-btn" href="{{ path('register') }}">Créer un compte</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="login_form_inner col-lg-12">
+                        <h3>Connectez-vous</h3>
+                        {% for flash_type, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ flash_type }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {{ form_start(form, { 'attr': {'class': 'row login_form'} }) }}
+                            <div class="col-md-12 form-group">
+                                {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': form.email.vars.label} }) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                            <div class="col-md-12 form-group">
+                                {{ form_widget(form.password, { 'attr': {'class': 'form-control', 'placeholder': form.password.vars.label} }) }}
+                                {{ form_errors(form.password) }}
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account">
+                                    <!--<input type="checkbox" id="f-option2" name="selector">
+                                    <label for="f-option2">Rester connecté</label>-->
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="primary-btn">Se connecter</button>
+                                <!--<a href="#">Mot de passe oublié?</a>-->
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

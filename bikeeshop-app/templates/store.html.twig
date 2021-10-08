@@ -1,0 +1,110 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Boutique{% endblock %}
+
+{% block main %}
+    <div class="container section_gap">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <div class="sidebar-categories">
+                    <div class="head">Catégories</div>
+                    <ul class="main-categories">
+                        <li class="main-nav-list">
+                            <a href="{{ path('store')}}">
+                                <span class="lnr lnr-arrow-right"></span>Toutes les catégories
+                            </a>
+                        </li>
+                        {% for category in categories %}
+                        <li class="main-nav-list">
+                            <a href="{{ path('store_category', {'idCategory': category.id}) }}">
+                                <span class="lnr lnr-arrow-right"></span>{{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <!-- Start Filter Bar -->
+                <div class="filter-bar d-flex flex-wrap align-items-center flex-row-reverse">
+                    <div class="pagination"
+                         data-jplist-control="pagination"
+                         data-group="group1"
+                         data-items-per-page="6"
+                         data-current-page="0"
+                         data-range="3"
+                         data-disabled-class="disabled"
+                         data-selected-class="active"
+                         data-name="pagination1">
+                        <a href="#" class="prev-arrow" data-type="first">«</a>
+                        <a href="#" class="prev-arrow" data-type="prev">‹</a>
+                        <ul data-type="pages">
+                            <a href="#" data-type="page">{pageNumber}</a>
+                        </ul>
+                        <a href="#" class="next-arrow" data-type="next">›</a>
+                        <a href="#" class="next-arrow" data-type="last">»</a>
+                    </div>
+                </div>
+                <!-- End Filter Bar -->
+                <!-- Start Products -->
+                <section class="lattest-product-area pb-40 category-list list">
+                    <div class="row" data-jplist-group="group1">
+                        {% for article in articles %}
+                        <div class="col-lg-4 col-md-6" data-jplist-item>
+                            <div class="single-product">
+                                <a href="{{ path('article-details', {'idArticle': article.id}) }}" class="sort-id">
+                                    <img class="img-fluid" src="{{ asset('img/product/'~article.visual) }}" alt="{{ article.name }}">
+                                </a>
+                                <div class="product-details">
+                                    <a href="{{ path('article-details', {'idArticle': article.id}) }}">
+                                        <h6>{{ article.name }}</h6>
+                                    </a>
+                                    <div class="price">
+                                        <h6 class="sort-price">{{ article.price|localizedcurrency('EUR') }}</h6>
+                                    </div>
+                                    <div class="prd-bottom">
+                                        <a href="{{ path('cart_add', {'idArticle': article.id}) }}" class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Acheter</p>
+                                        </a>
+                                        <a href="{{ path('article-details', {'idArticle': article.id}) }}" class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                            <p class="hover-text">Voir</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                <!-- End Products -->
+
+                <!-- Start Filter Bar -->
+                <div class="filter-bar d-flex flex-wrap align-items-center flex-row-reverse">
+                    <div class="pagination"
+                         data-jplist-control="pagination"
+                         data-group="group1"
+                         data-items-per-page="6"
+                         data-current-page="0"
+                         data-range="3"
+                         data-disabled-class="disabled"
+                         data-selected-class="active"
+                         data-name="pagination1">
+                        <a href="#" class="prev-arrow" data-type="first">«</a>
+                        <a href="#" class="prev-arrow" data-type="prev">‹</a>
+                        <ul data-type="pages">
+                            <a href="#" data-type="page">{pageNumber}</a>
+                        </ul>
+                        <a href="#" class="next-arrow" data-type="next">›</a>
+                        <a href="#" class="next-arrow" data-type="last">»</a>
+                    </div>
+                </div>
+                <!-- End Filter Bar -->
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('js/vendor/jplist.min.js') }}"></script>
+    <script>
+    jplist.init();
+    </script>
+{% endblock %}

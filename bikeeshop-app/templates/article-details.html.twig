@@ -1,0 +1,42 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Fiche produit{% endblock %}
+
+{% block main %}
+    <div class="product_image_area section_gap">
+        <div class="container">
+            <div class="row s_product_inner">
+                <div class="col-lg-6">
+                    <div class="product">
+                        <div class="single-prd-item">
+                            <img class="img-fluid" src="{{ asset('img/product/'~article.visual) }}" alt="{{ article.name }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="s_product_text">
+                        <h3>{{ article.name }}</h3>
+                        <h2>{{ article.price|localizedcurrency('EUR') }}</h2>
+                        <ul class="list">
+                            <li><a class="active" href="{{ path('store_category', {'idCategory': article.category.id}) }}"><span>Categorie</span> : {{ article.category.name }}</a></li>
+                            <li><span>Disponibilité</span> : {% if(article.stock > 0) %} En stock {% else %} Indisponible {% endif %}</li>
+                        </ul>
+                        <p>{{ article.description }}</p>
+                        <form method="get" action="{{ path('cart_add', {'idArticle': article.id}) }}">
+                        <div class="product_count">
+                            <label for="qty">Quantité:</label>
+                            <input type="number" name="qty" id="qty" min="0" max="{{ article.stock }}" value="1" title="Quantité:" class="input-text qty">
+                            <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty < {{ article.stock }} ) result.value++;return false;"
+                                    class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                            <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;"
+                                    class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                        </div>
+                        <div class="card_area d-flex align-items-center">
+                            <button class="primary-btn">Ajouter au panier</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

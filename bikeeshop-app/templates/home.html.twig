@@ -1,0 +1,176 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <!-- start banner Area -->
+    <section class="banner-area">
+        <div class="container">
+            <div class="row fullscreen align-items-center justify-content-start">
+                <div class="col-lg-12">
+                    {% for flash_type, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ flash_type }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="active-banner-slider owl-carousel">
+                        <!-- single-slide -->
+                        <div class="row single-slide align-items-center d-flex">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="banner-content">
+                                    <h1>-35 % DE REDUCTION</h1>
+                                    <div class="add-bag d-flex align-items-center">
+                                        <span class="add-text" style="font-size:8.5px;">Sur les articles comportant une pastille rouge</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="banner-img">
+                                    <img class="img-fluid" src="img/banner/banner-img.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single-slide -->
+                        <div class="row single-slide">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="banner-content">
+                                    <h1>Nouvelle boutique</h1>
+                                    <p>Nous avons le plaisir de vous annoncer que nous venons d'ouvrir un nouveau magasin, situé à Paris situé 23 rue des paquerettes !<br> Venez essayer sans plus attendre votre futur vélo. </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="banner-img">
+                                    <img class="img-fluid" src="img/banner/banner-img.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+
+    <!-- start features Area -->
+    <section class="features-area section_gap">
+        <div class="container">
+            <div class="row features-inner">
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon1.png" alt="">
+                        </div>
+                        <h6 style="margin-bottom: .5rem;">Livraison gratuite</h6>
+                        <p style="line-height: 18px;">Livraison gratuite sur toutes les commandes !</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon2.png" alt="">
+                        </div>
+                        <h6 style="margin-bottom: .5rem;">Politique de retour</h6>
+                        <p style="line-height: 18px;">Profiter d'un délai de 30 jours pour retourner vos articles !</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon3.png" alt="">
+                        </div>
+                        <h6 style="margin-bottom: .5rem;">24/7 Support</h6>
+                        <p style="line-height: 18px;">Une équipe technique et commerciale à votre écoute n'importe quand !</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon4.png" alt="">
+                        </div>
+                        <h6 style="margin-bottom: .5rem;">Paiement sécurisé</h6>
+                        <p style="line-height: 18px;">Nous avons une famille à nourrir !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end features Area -->
+
+    <!-- Start category Area -->
+    <section class="blog_categorie_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h1>Notre gamme de vélos</h1>
+                    </div>
+                </div>
+                {% for category in categories %}
+                <div class="col-lg-4">
+                    <div class="categories_post">
+                        <a href="{{ path('store_category', {'idCategory': category.id}) }}">
+                            <img src="{{ asset('img/category/'~category.visual) }}" alt="{{ category.name }}">
+                        </a>
+                        <div class="categories_details">
+                            <div class="categories_text">
+                                <a href="{{ path('store_category', {'idCategory': category.id}) }}">
+                                    <h5>{{ category.name }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- End category Area -->
+
+    <!-- start product Area -->
+    <section class="category-area" style="padding-bottom: 100px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="section-title">
+                        <h1>Nos dernières nouveautés</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for lastArticle in lastArticles %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="single-product">
+                        <a href="{{ path('article-details', {'idArticle': lastArticle.id}) }}">
+                            <img class="img-fluid" src="{{ asset('img/product/'~lastArticle.visual) }}" alt="{{ lastArticle.name }}">
+                        </a>
+                        <div class="product-details">
+                            <a href="{{ path('article-details', {'idArticle': lastArticle.id}) }}">
+                                <h6>{{ lastArticle.name }}</h6>
+                            </a>
+                            <div class="price">
+                                <h6>{{ lastArticle.price|localizedcurrency('EUR') }}</h6>
+                            </div>
+                            <div class="prd-bottom">
+                                <a href="{{ path('cart_add', {'idArticle': lastArticle.id}) }}" class="social-info">
+                                    <span class="ti-bag"></span>
+                                    <p class="hover-text">Acheter</p>
+                                </a>
+                                <a href="{{ path('article-details', {'idArticle': lastArticle.id}) }}" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                    <p class="hover-text">Voir</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- end product Area -->
+
+{% endblock %}

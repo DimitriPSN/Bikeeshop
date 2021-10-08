@@ -1,0 +1,125 @@
+{% extends 'page.html.twig' %}
+{% block titlePage %}Panier{% endblock %}
+
+{% block main %}
+    <section class="order_details section_gap">
+        <div class="container">
+            {% for flash_type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ flash_type }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="row order_d_inner">
+                <div class="col-lg-6">
+                    <div class="details_item">
+                        <h4>Informations client</h4>
+                        <ul class="list">
+                            <li><a href="#"><span>Nom</span> : {{ client.lastname }}</a></li>
+                            <li><a href="#"><span>Prénom</span> : {{ client.firstname }}</a></li>
+                            <li><a href="#"><span>E-mail</span> : {{ client.email }}</a></li>
+                            <li><a href="#"><span>Téléphone</span> : {{ client.phone }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="details_item">
+                        <h4>Adresse de livraison</h4>
+                        <ul class="list">
+                            <li><a href="#"><span>Adresse</span> : {{ client.address }}</a></li>
+                            <li><a href="#"><span>Code postal</span> : {{ client.zipcode }}</a></li>
+                            <li><a href="#"><span>Ville</span> : {{ client.city }}</a></li>
+                            <li><a href="#"><span>Pays</span> : France</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 mx-auto">
+                    <a class="gray_btn_center" href="{{ path('cart_edit') }}">Modifier les informations</a>
+                </div>
+            </div>
+            <div class="order_details_table margin-bottom30">
+                <h2>Détails de la commande</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set totalArticle = 0 %}
+                        {% set totalArticles = 0 %}
+                        {% for article in articles %}
+                        <tr>
+                            <td>
+                                <p>
+                                    <a href="{{ path('article-details', {'idArticle': article.id}) }}">
+                                        {{ article.name }}
+                                    </a>
+                                </p>
+                            </td>
+                            <td>
+                                <h5>x {{ qte[article.id] }}</h5>
+                            </td>
+                            <td>
+                                <p>
+                                    {% set totalArticle = article.price*qte[article.id] %}
+                                    {% set totalArticles = totalArticles+totalArticle %}
+                                    {{ totalArticle|localizedcurrency('EUR') }}
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>
+                                <h4>Sous-total</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p>{{ totalArticles|localizedcurrency('EUR') }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>TVA ({{ (tva-1)*100 }}%)</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p>
+                                    {% set TVA = totalArticles*(tva-1) %}
+                                    {{ TVA|localizedcurrency('EUR') }}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Total</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p>
+                                    {% set totalTTC = totalArticles*tva %}
+                                    {{ totalTTC|localizedcurrency('EUR') }}
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-6 mx-auto">
+                <a class="primary-btn-center-small" href="{{ path('cart_confirm') }}">Confirmer le panier</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
